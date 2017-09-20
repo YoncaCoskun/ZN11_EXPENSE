@@ -1,0 +1,262 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" controllerName="zn11_expense.controller.Budget" height="100%"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:commons="sap.ui.commons" class="sapUiSizeCompact"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:tnt="sap.tnt" xmlns="sap.m">
+	<OverflowToolbar>
+		<Button icon="sap-icon://paper-plane" text="Send" type="Accept" press="sendAction">
+			<layoutData><OverflowToolbarLayoutData moveToOverflow="false"/></layoutData>
+		</Button>
+		<Button icon="sap-icon://sys-cancel" text="Cancel" type="Reject">
+			<layoutData><OverflowToolbarLayoutData moveToOverflow="false"/></layoutData>
+		</Button>
+	</OverflowToolbar>
+	<IconTabBar class="sapUiResponsiveContentPadding" expanded="{device]/isNoPhone}">
+		<items>
+			<IconTabFilter text="DOCUMENT">
+				<Button icon="sap-icon://print" text="Print the document" press="onPdfExport"/>
+				<Button icon="sap-icon://notes" text="Notes"/>
+				<Button icon="sap-icon://save" press="onSaveChange" text="Save Changes"/>
+				<Panel class="sapUiSmallMargin panelContainer generalLabelFont generalLabelFontUi" expandable="false" width="95%">
+					<headerToolbar>
+						<Toolbar class="box-header">
+							<core:Icon class="size1 icon-shadow" color="#FFF" src="sap-icon://user-edit"/>
+							<Title class="approvalText" text="Budget Approval"/>
+						</Toolbar>
+					</headerToolbar>
+					<content>
+						<Panel class="panelBottom" id="panelFirs" width="auto">
+							<content>
+								<ImageContent class="imageLogo" src="img/logo-n11-large.png"></ImageContent>
+							</content>
+						</Panel>
+						<Panel class="panelBottom" id="panelFirstContainerBudget" width="auto">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title class="boldText" text="Form Details"/>
+									<!--<ImageContent class="imageLogo" src="img/n11_logo.png"></ImageContent>-->
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<VBox class="sapUiSmallMargin">
+									<f:SimpleForm columnsXL="3" emptySpanM="0" columnsM="2" columnsL="2" editable="true" emptySpanL="0" emptySpanXL="0" labelSpanL="4"
+										labelSpanM="4" labelSpanXL="4" layout="ResponsiveGridLayout" maxContainerCols="3">
+										<f:content>
+											<core:Title/>
+											<Label text="Request Owner:"/>
+											<Input class="inputForm" value="" id="requestOwner" />
+											<Label text="Department:"/>
+											<Input class="inputForm" value="" id="department" />
+											<Label text="Title:"/>
+											<Input class="inputForm" value="" id="title"/>
+											<core:Title/>
+											<Label text="Request Number:"/>
+											<Input class="inputForm" value="" id="requestNum"/>
+											<Label text="Request Date:"/>
+											<Input class="inputForm" value="" id="requestDate"/>
+											<HBox>
+												<Input class="inputForm" value="" id="requestTime"/>
+											</HBox>
+											<Label text="Status:"/>
+											<Input class="inputForm" value="{Status}" id="status" />
+										</f:content>
+									</f:SimpleForm>
+								</VBox>
+							</content>
+						</Panel>
+						<Panel class="panelBottom" id="panelSecondContainerBudget" showCollapseIcon="true" width="auto">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title class="boldText" text="Budget Details"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<VBox class="sapUiSmallMargin">
+									<f:SimpleForm editable="true" layout="ResponsiveGridLayout">
+										<f:content>
+											<core:Title/>
+											<Label text="Period Start/End:"/>
+											<DatePicker class="inputForm" id="periodStart" value="" />
+											<DatePicker class="inputForm" id="periodEnd" value="" />
+											<Label text="Supplier:"/>
+											<Input class="inputForm" value="" id="supplier"/>
+											<Label text="Subject:"/>
+											<TextArea class="inputTextArea"
+												value="" id="subject"/>
+											<Label text="Budget Allocation:"/>
+											<Select id="idBudget" 
+													forceSelection="false"
+													items="{ path: 'budgetModel>/'}"
+													change="selectChange">
+													<core:Item key="" text="{path:'budgetModel>STRING',
+													formatter: '.setFormat'}" id="idText"/>
+											</Select> 
+											<Label text="Department:"/>
+											<Input class="inputForm" value="" id="idDepartment"/>
+											<Label text="Type:"/>
+											<Input class="inputForm" value="" id="idType"/>
+											<Label text="Description:"/>
+											<Input class="inputForm" value="" id="idDesc"/>
+											<Label text="Sub.Description:"/>
+											<Input class="inputForm" value="" id="idSubDesc"/>
+											<Label text="Rem.Budget Amount:"/>
+											<Input class="inputForm" value="" id="remBudget"/>
+											<Label text="Purpose:"/>
+											<TextArea class="inputTextArea" value="" id="purpose"/>
+											<Label text="Explanation:"/>
+											<TextArea class="inputTextArea" value="" id="explanation"/>
+											<Label text=""/>
+											<RadioButtonGroup class="sapUiMediumMarginBottom" id="formType" columns="5">
+												<buttons>
+													<RadioButton id="RB3-1" text="Related Party"  key="Related Party" />
+													<RadioButton id="RB3-2" text="Donation" key="Donation"/>
+													<RadioButton id="RB3-3" text="Domestic Education" key="Domestic Education"/>
+													<RadioButton id="RB3-4" text="Abroad Education" key="Abroad Education"/>
+													<RadioButton id="RB3-5" text="Business Trip" key="Business Trip"/>
+													<RadioButton id="RB3-6" text="Others" key="Others"/>
+												</buttons>
+											</RadioButtonGroup>
+											<Label text="Related Party:"/>
+											<Select width="100%" enabled="false" id="relatedParty">
+												<items>
+													<core:Item text="" key="relatedParty" />
+												</items>
+											</Select>
+											<Label text="B&amp;R Explanation:"/>
+											<TextArea class="inputTextArea" value="" id="brExp"/>
+											<Label text="Type here"/>
+										</f:content>
+									</f:SimpleForm>
+								</VBox>
+							</content>
+						</Panel>
+						<Panel class="panelBottom" id="panelThirdContainerBudget" width="auto">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title class="boldText" text="Budget Amount"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<VBox class="sapUiSmallMargin">
+									<f:SimpleForm  id="SimpleFormChange354"
+												editable="true"
+												layout="ResponsiveGridLayout"
+												>
+										<f:content>
+											<core:Title/>
+											<Label text="Currency:"/>
+											<Select class="labelCurrency" id="CurrencyType">
+												<items>
+													<core:Item text="TRY" key="TRY"/>
+													<core:Item text="USD" key="USD"/>
+													<core:Item text="EUR" key="EUR"/>
+												</items>
+											</Select>
+											<Input class="inputCurr" value="" id="currency">
+											 
+											</Input>
+											<Label text="Total Amount:"/>
+											<Input class="inputForm" value="" id="totalAmount"/>
+											<HBox>
+												<Label class="labelExc" text="(Exc.VAT)"/>
+												<Button icon="sap-icon://add" text="Add" class="" press="addListInput"/>
+											</HBox><Label text="Installments:"/>
+											<Table id="mainViewTbl" inset="false" items="{ path: '/ET_HEADERSet', sorter: { path: 'Name' } }">
+												<columns>
+													<Column width="3rem">
+														<Text text="#"/>
+													</Column>
+													<Column demandPopin="true" minScreenWidth="Tablet" width="10rem">
+														<Text text="Month"/>
+													</Column>
+													<Column demandPopin="true" hAlign="Right" minScreenWidth="Tablet" width="15rem">
+														<Text text="Installment Amount"/>
+													</Column>
+													<Column demandPopin="true" hAlign="Right" minScreenWidth="Tablet">
+														<Text text=""/>
+													</Column>
+												</columns>
+												<items>
+													<ColumnListItem>
+														<cells>
+															<Text text="{#}"/>
+															<Text text="{Month}"/>
+															<Text text=""/>
+														</cells>
+													</ColumnListItem>
+												</items>
+											</Table>
+											<!--<List delete="handleDelete" enableBusyIndicator="true" growing="true" headerText="Users" id="addList1" mode="Delete"></List>-->
+											<Label text="Total Amount:"/>
+											<Input class="inputForm" value="" editable="false" id="idTotalAmount"/>
+											<Input class="inputForm" value="100" />
+											<HBox>
+												<Label class="labelPay" id="idTRY1" text="TRY"/>
+												<Label class="labelExc" text="(Exc.VAT)"/>
+											</HBox>
+										</f:content>
+									</f:SimpleForm>
+								</VBox>
+							</content>
+						</Panel>
+						<Panel class="panelBottom" id="panelFourthContainerBudget" width="auto">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title class="boldText" text="Attachment"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<Button ariaDescribedBy="defaultButtonDescription genericButtonDescription" press="onPress" text="Add">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Button>
+							</content>
+						</Panel>
+					</content>
+				</Panel>
+			<!--	<Button icon="sap-icon://print" text="Print the document"/>
+				<Button icon="sap-icon://notes" text="Notes"/>
+				<Button icon="sap-icon://save" text="Save Changes"/>-->
+			</IconTabFilter>
+			<IconTabFilter text="FLOW">
+				<List headerText="A List" showSeparators="Inner"></List>
+			</IconTabFilter>
+			<IconTabFilter text="MESSAGES">
+				<Button icon="sap-icon://add" press="onAddMessageDialogPress" text="Add Message" id="idClick"/>
+				<Table id="idBudgetMessage" inset="false" items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
+					<columns>
+						<Column width="12em">
+							<Text text="Send Name"/>
+						</Column>
+						<Column width="12em">
+							<Text text="Send Date"/>
+						</Column>
+						<Column width="12em">
+							<Text text="Subject"/>
+						</Column>
+						<Column width="12em">
+							<Text text="Message"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{SendName}"/>
+								<Text text="{SendDate}"/>
+								<Text text="{Subject}"/>
+								<Text text="{Message}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</IconTabFilter>
+		</items>
+	</IconTabBar>
+	<OverflowToolbar>
+		<Button icon="sap-icon://paper-plane" text="Send" type="Accept" press="sendAction">
+		<layoutData><OverflowToolbarLayoutData moveToOverflow="false"/></layoutData>
+		</Button>
+		<Button icon="sap-icon://sys-cancel" text="Cancel" type="Reject">
+			<layoutData><OverflowToolbarLayoutData moveToOverflow="false"/></layoutData>
+		</Button>
+	</OverflowToolbar>
+</mvc:View>
